@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação do Evento - Cervejaria Norte</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2d3748;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .header .date {
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .intro-text {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        
+        .intro-text p {
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .intro-text strong {
+            color: #2d3748;
+        }
+        
+        .question-group {
+            margin-bottom: 35px;
+        }
+        
+        .question-label {
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .required {
+            color: #e53e3e;
+            margin-left: 3px;
+        }
+        
+        .scale-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 8px;
+        }
+        
+        .scale-label {
+            font-size: 12px;
+            color: #718096;
+        }
+        
+        .scale-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .scale-option {
+            position: relative;
+        }
+        
+        .scale-option input[type="radio"] {
+            display: none;
+        }
+        
+        .scale-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #4a5568;
+            background: white;
+        }
+        
+        .scale-option input[type="radio"]:checked + label {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: scale(1.1);
+        }
+        
+        .scale-option label:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .radio-option:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+        }
+        
+        .radio-option input[type="radio"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .radio-option label {
+            cursor: pointer;
+            color: #2d3748;
+            font-size: 15px;
+            flex: 1;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .thank-you {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .thank-you.show {
+            display: block;
+        }
+        
+        .thank-you h2 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .thank-you p {
+            color: #4a5568;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .age-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .scale-option label {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="feedbackForm">
+            <div class="header">
+                <h1>A sua opinião é importante!</h1>
+                <div class="subtitle">Evento de Jogos - Cervejaria Norte</div>
+                <div class="date">18 de Outubro de 2024</div>
+            </div>
+            
+            <div class="intro-text">
+                <p><strong>Obrigado por participar no nosso evento!</strong></p>
+                <p>Jogámos o Tapple e o Mega Concept, e a sua opinião é fundamental para melhorarmos futuras experiências.</p>
+                <p><strong>As respostas são totalmente anónimas.</strong></p>
+            </div>
+            
+            <div class="question-group">
+                <label class="question-label">Qual é a sua faixa etária? <span class="required">*</span></label>
+                <div class="radio-group age-group">
+                    <div class="radio-option">
+                        <input type="radio" id="age1" name="age" value="20-30" required>
+                        <label for="age1">20-30 anos</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="age2" name="age" value="31-40">
+                        <label for="age2">31-40 anos</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="age3" name="age" value="41-50">
+                        <label for="age3">41-50 anos</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="age4" name="age" value="51-60">
+                        <label for="age4">51-60 anos</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="age5" name="age" value="60+">
+                        <label for="age5">Mais de 60 anos</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question-group">
+                <label class="question-label">Como avalia a experiência do jogo Tapple? <span class="required">*</span></label>
+                <div class="scale-options">
+                    <div class="scale-option">
+                        <input type="radio" id="tapple0" name="tapple" value="0" required>
+                        <label for="tapple0">0</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple1" name="tapple" value="1">
+                        <label for="tapple1">1</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple2" name="tapple" value="2">
+                        <label for="tapple2">2</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple3" name="tapple" value="3">
+                        <label for="tapple3">3</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple4" name="tapple" value="4">
+                        <label for="tapple4">4</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple5" name="tapple" value="5">
+                        <label for="tapple5">5</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple6" name="tapple" value="6">
+                        <label for="tapple6">6</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple7" name="tapple" value="7">
+                        <label for="tapple7">7</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple8" name="tapple" value="8">
+                        <label for="tapple8">8</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple9" name="tapple" value="9">
+                        <label for="tapple9">9</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="tapple10" name="tapple" value="10">
+                        <label for="tapple10">10</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span class="scale-label">Nada satisfeito</span>
+                    <span class="scale-label">Extremamente satisfeito</span>
+                </div>
+            </div>
+            
+            <div class="question-group">
+                <label class="question-label">Como avalia a experiência do jogo Mega Concept? <span class="required">*</span></label>
+                <div class="scale-options">
+                    <div class="scale-option">
+                        <input type="radio" id="concept0" name="concept" value="0" required>
+                        <label for="concept0">0</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept1" name="concept" value="1">
+                        <label for="concept1">1</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept2" name="concept" value="2">
+                        <label for="concept2">2</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept3" name="concept" value="3">
+                        <label for="concept3">3</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept4" name="concept" value="4">
+                        <label for="concept4">4</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept5" name="concept" value="5">
+                        <label for="concept5">5</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept6" name="concept" value="6">
+                        <label for="concept6">6</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept7" name="concept" value="7">
+                        <label for="concept7">7</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept8" name="concept" value="8">
+                        <label for="concept8">8</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept9" name="concept" value="9">
+                        <label for="concept9">9</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="concept10" name="concept" value="10">
+                        <label for="concept10">10</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span class="scale-label">Nada satisfeito</span>
+                    <span class="scale-label">Extremamente satisfeito</span>
+                </div>
+            </div>
+            
+            <div class="question-group">
+                <label class="question-label">Como avalia a experiência global do evento? <span class="required">*</span></label>
+                <div class="scale-options">
+                    <div class="scale-option">
+                        <input type="radio" id="global0" name="global" value="0" required>
+                        <label for="global0">0</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global1" name="global" value="1">
+                        <label for="global1">1</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global2" name="global" value="2">
+                        <label for="global2">2</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global3" name="global" value="3">
+                        <label for="global3">3</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global4" name="global" value="4">
+                        <label for="global4">4</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global5" name="global" value="5">
+                        <label for="global5">5</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global6" name="global" value="6">
+                        <label for="global6">6</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global7" name="global" value="7">
+                        <label for="global7">7</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global8" name="global" value="8">
+                        <label for="global8">8</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global9" name="global" value="9">
+                        <label for="global9">9</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="global10" name="global" value="10">
+                        <label for="global10">10</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span class="scale-label">Nada satisfeito</span>
+                    <span class="scale-label">Extremamente satisfeito</span>
+                </div>
+            </div>
+            
+            <div class="question-group">
+                <label class="question-label">Qual a probabilidade de recomendar este tipo de evento a um amigo ou familiar? <span class="required">*</span></label>
+                <div class="scale-options">
+                    <div class="scale-option">
+                        <input type="radio" id="recommend0" name="recommend" value="0" required>
+                        <label for="recommend0">0</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend1" name="recommend" value="1">
+                        <label for="recommend1">1</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend2" name="recommend" value="2">
+                        <label for="recommend2">2</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend3" name="recommend" value="3">
+                        <label for="recommend3">3</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend4" name="recommend" value="4">
+                        <label for="recommend4">4</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend5" name="recommend" value="5">
+                        <label for="recommend5">5</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend6" name="recommend" value="6">
+                        <label for="recommend6">6</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend7" name="recommend" value="7">
+                        <label for="recommend7">7</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend8" name="recommend" value="8">
+                        <label for="recommend8">8</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend9" name="recommend" value="9">
+                        <label for="recommend9">9</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="recommend10" name="recommend" value="10">
+                        <label for="recommend10">10</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span class="scale-label">Nada provável</span>
+                    <span class="scale-label">Extremamente provável</span>
+                </div>
+            </div>
+            
+            <div class="question-group">
+                <label class="question-label">O momento escolhido (a seguir ao almoço) foi adequado? <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="timing1" name="timing" value="Sim, foi o momento ideal" required>
+                        <label for="timing1">Sim, foi o momento ideal</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="timing2" name="timing" value="Preferia durante a refeição">
+                        <label for="timing2">Preferia durante a refeição</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="timing3" name="timing" value="Preferia noutro horário">
+                        <label for="timing3">Preferia noutro horário</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question-group">
+                <label class="question-label">Se repetíssemos a experiência, que momento da semana escolheria? <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="schedule1" name="schedule" value="Terça, quarta ou quinta 20h30-22h30" required>
+                        <label for="schedule1">Terça, quarta ou quinta-feira das 20h30 às 22h30</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="schedule2" name="schedule" value="Sábado 14h-16h">
+                        <label for="schedule2">Sábado das 14h às 16h</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="schedule3" name="schedule" value="Indiferente">
+                        <label for="schedule3">Qualquer um dos horários serve</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question-group">
+                <label class="question-label">Comentários, sugestões ou observações</label>
+                <textarea name="comments" placeholder="Partilhe connosco a sua opinião, sugestões de melhorias ou outros jogos que gostaria de experimentar..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Enviar Avaliação</button>
+        </form>
+        
+        <div class="thank-you" id="thankYou">
+            <h2>✨ Muito Obrigado!</h2>
+            <p>A sua opinião é extremamente valiosa para nós.</p>
+            <p>Esperamos vê-lo em breve num próximo evento!</p>
+        </div>
+    </div>
+    
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAvWrrK05T_1YFLYf9tWIM12xeM6cCMQr-Ta8DPRlsiYRy9LNAJiVMICLXKdCFRAeIYw/exec';
+        
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Disable submit button to prevent double submission
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'A enviar...';
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            // Add timestamp
+            data.timestamp = new Date().toLocaleString('pt-PT');
+            
+            // Send to Google Sheets
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                // Show thank you message
+                document.querySelector('form').style.display = 'none';
+                document.getElementById('thankYou').classList.add('show');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Enviar Avaliação';
+            });
+        });
+    </script>
+</body>
+</html>
